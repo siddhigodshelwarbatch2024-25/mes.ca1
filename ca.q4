@@ -1,0 +1,6 @@
+ORG 0000H
+CLR A                 ; A = 00H
+MOV A, #0FFH       
+ANL A, #0E8H          ; A = E8H
+
+END
