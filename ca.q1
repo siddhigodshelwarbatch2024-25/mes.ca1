@@ -1,0 +1,23 @@
+; Generate four digits prn
+
+MOV A, #01H
+
+MOV B, #0AH
+MUL AB
+
+ADD A, #05H
+
+MOV B, #0AH
+MUL AB
+
+ADD A, #00H
+
+MOV B, #0AH
+MUL AB
+
+ADD A, #06H
+
+DONE:
+SJMP DONE
+
+END
