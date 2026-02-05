@@ -1,0 +1,14 @@
+;Direct addressing mode
+MOV 30H, #55H
+MOV A, 30H
+END
+
+;Indirect addressing mode
+MOV 30H, #40H
+MOV 40H, #99H
+
+MOV R0, #30H
+MOV A, @R0
+
+END
+
