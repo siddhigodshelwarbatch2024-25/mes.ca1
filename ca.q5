@@ -1,39 +1,28 @@
 ORG 0000H
+MOV R0, #40H       
+MOV R1, #40H      
 
-    MOV A, 50H      ; Load A 
-    MOV R0, A       ; R0 = A
-    MOV A, 51H      ; Load B 
-    MOV R1, A       ; R1 = B
+SCAN_LOOP:
+    MOV A, @R0     
+    CJNE A, #0FFH, KEEP_DATA 
+    SJMP NEXT_BYTE 
+KEEP_DATA:
+    MOV @R1, A     
+    INC R1        
 
-COMPARE:
-    MOV A, R0
-    JZ CHECK_B_ZERO ; If A == 0, check B
-
+NEXT_BYTE:
+    INC R0          
+    CJNE R0, #60H, SCAN_LOOP 
+ZERO_FILL:
     MOV A, R1
-    JZ A_GREATER    ; If B == 0 but A != 0 ? A > B
-
-    DEC R0          ; A = A - 1
-    DEC R1          ; B = B - 1
-    SJMP COMPARE
-
-CHECK_B_ZERO:
-    MOV A, R1
-    JZ EQUAL        ; Both zero ? equal
-    SJMP A_LESS     ; A zero  ? A < B
-
-A_GREATER:
-    MOV 52H, #01H
+    CJNE A, #60H, FILL_NOW
     SJMP DONE
 
-A_LESS:
-    MOV 52H, #0FFH
-    SJMP DONE
-
-EQUAL:
-    MOV 52H, #00H
+FILL_NOW:
+    MOV @R1, #00H  
+    INC R1
+    SJMP ZERO_FILL
 
 DONE:
-HERE:
-    SJMP HERE
-
+    SJMP $        
 END
